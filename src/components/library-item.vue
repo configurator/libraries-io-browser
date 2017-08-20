@@ -133,6 +133,8 @@
 			max-height: 0;
 			opacity: 0;
 
+			overflow: hidden;
+
 			display: flex;
 			flex-direction: column;
 
