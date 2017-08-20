@@ -92,6 +92,7 @@
 
 		.description {
 			flex: 1;
+			overflow: hidden;
 		}
 
 		.expanded-view {
