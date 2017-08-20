@@ -16,6 +16,7 @@
 
 <script>
 	import LanguageColors from '../api/language-colors';
+	import CollapseEventBus from './library-item-collapse-event-bus';
 
 	export default {
 		props: [
@@ -24,6 +25,7 @@
 		],
 		methods: {
 			selected(lang) {
+				CollapseEventBus.emit();
 				this.$emit('selectLanguage', lang);
 			},
 
