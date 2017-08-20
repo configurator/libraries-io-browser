@@ -33,8 +33,8 @@
 					{{ item.Language }}
 				</div>
 				<div class="stars">
-					<i class="fa fa-star"></i>
 					{{ item['Repository Stars Count'] || 0 }}
+					<i class="fa fa-star"></i>
 				</div>
 			</div>
 			<div class="description">
