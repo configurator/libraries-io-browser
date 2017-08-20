@@ -1,7 +1,7 @@
 <template>
 	<div class="library-item"
 		 :style="{ backgroundColor: color }"
-		 v-on:click="isExpanded = true">
+		 v-on:click="expand()">
 
 		<div class="title">
 			<div class="name">
@@ -47,16 +47,34 @@
 
 <script>
 	import LanguageColors from '../api/language-colors';
+	import CollapseEventBus from './library-item-collapse-event-bus';
 
 	export default {
 		name: 'library-item',
+
 		props: [
 			'item',
 		],
+
 		data: () => ({
 			isExpanded: false,
 		}),
 
+		created() {
+			this.collapseEventHandler = () => this.isExpanded = false;
+			CollapseEventBus.on(this.collapseEventHandler);
+		},
+
+		destroyed() {
+			CollapseEventBus.off(this.collapseEventHandler);
+		},
+
+		methods: {
+			expand() {
+				CollapseEventBus.emit();
+				this.isExpanded = true;
+			}
+		},
 
 		computed: {
 			color() {
