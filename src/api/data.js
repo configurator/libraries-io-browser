@@ -1,11 +1,8 @@
 var superagent = require('superagent');
 
 function loader(path) {
-	return () => superagent.get(path).then(value => {
-		console.log(`Downloaded ${value.length} chars from ${path}`);
-		return value.body;
-	});
+	return () => superagent.get(path).then(value => value.body);
 };
 
-module.exports.loadData = loader(require('../../data/libraries.json'));
+module.exports.loadData = loader(require('../../data/1000.json'));
 module.exports.loadSample = loader(require('../../data/single.json'));

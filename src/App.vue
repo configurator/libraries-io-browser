@@ -1,17 +1,24 @@
 <template>
-	<library-list :data="data">
+	<library-list :items="items" v-if="items">
 	</library-list>
 </template>
 
 <script>
 	import Data from './api/data';
+	import LibraryList from './components/library-list.vue';
 
 	export default {
+		data: () => ({
+			items: undefined
+		}),
 		created: function () {
 			let component = this;
 
-			Data.loadSample().then(value => component.sample = value);
-		}
+			Data.loadData().then(value => component.items = value);
+		},
+		components: {
+			LibraryList,
+		},
 	};
 </script>
 
