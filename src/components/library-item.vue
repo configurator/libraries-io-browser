@@ -8,8 +8,8 @@
 				{{ item.Name }}
 			</div>
 			<div class="stars">
-				<i class="fa fa-star"></i>
 				{{ item['Repository Stars Count'] || 0 }}
+				<i class="fa fa-star"></i>
 			</div>
 		</div>
 		<div class="description">
@@ -17,7 +17,8 @@
 		</div>
 
 		<div class="expanded-view"
-			 v-if="isExpanded"
+			 :style="{ backgroundColor: color }"
+			 :class="{ visible: isExpanded }"
 			 v-on:click.stop="isExpanded = false">
 
 			<div class="title">
@@ -40,7 +41,7 @@
 <script>
 	let randomColor = function () {
 		let unit = () => Math.ceil(Math.random() * 100 + 155);
-		return `rgba(${unit()}, ${unit()}, ${unit()})`;
+		return `rgb(${unit()}, ${unit()}, ${unit()})`;
 	};
 
 	export default {
@@ -52,6 +53,7 @@
 			isExpanded: false,
 			color: '',
 		}),
+
 		created: function () {
 			if (this.item && !this.item.color) {
 				this.item.color = randomColor();
@@ -65,7 +67,7 @@
 	.library-item {
 		height: 100px;
 		min-width: 350px;
-		margin: 0.5em;
+		padding: 0.5em;
 
 		flex: 1;
 		display: flex;
@@ -74,7 +76,7 @@
 		background: #fff0e0;
 
 		.title {
-			margin: 0.2em;
+			margin: 0.2em 0;
 			display: flex;
 
 			.name {
@@ -83,8 +85,8 @@
 				text-align: center;
 			}
 
-			.stars {
-				width: 70px;
+			.stars .fa-star {
+				margin-left: 0.5em;
 			}
 		}
 
@@ -97,11 +99,24 @@
 			left: 0;
 			right: 0;
 
-			min-height: 60vh;
-			background: cyan;
+			background: #fff0e0;
+			margin-top: -0.5em;
+			padding: 0.5em;
+
+			min-height: 0;
+			max-height: 0;
+			opacity: 0;
 
 			display: flex;
 			flex-direction: column;
+
+			transition: min-height 300ms ease-in-out, max-height 300ms ease-in-out, opacity 200ms linear;
+
+			&.visible {
+				min-height: 40vh;
+				max-height: 100vh;
+				opacity: 1;
+			}
 		}
 	}
 </style>
