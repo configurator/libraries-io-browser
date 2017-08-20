@@ -57,14 +57,6 @@
 			isExpanded: false,
 		}),
 
-		watch: {
-			item: function () {
-				if (this.item && !this.item.color) {
-					this.item.color = LanguageColors(this.item.Language);
-				}
-				this.color = this.item.color;
-			}
-		},
 
 		computed: {
 			color() {
