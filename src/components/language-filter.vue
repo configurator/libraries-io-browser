@@ -7,6 +7,7 @@
 		<button v-for="lang in languages"
 				:key="lang"
 				:class="{ selected: lang === selectedLanguage }"
+				:style="{ backgroundColor: color(lang) }"
 				@click="() => selected(lang)">
 			{{ lang }}
 		</button>
@@ -14,15 +15,21 @@
 </template>
 
 <script>
+	import LanguageColors from '../api/language-colors';
+
 	export default {
 		props: [
 			'languages',
 			'selectedLanguage',
 		],
 		methods: {
-			selected (lang) {
+			selected(lang) {
 				this.$emit('selectLanguage', lang);
-			}
+			},
+
+			color(lang) {
+				return LanguageColors(lang);
+			},
 		}
 	};
 </script>
@@ -41,7 +48,8 @@
 			border: 1px solid black;
 
 			&.selected {
-				background:#d0e0ff;
+				font-weight: bold;
+				font-style: italic;
 			}
 		}
 	}

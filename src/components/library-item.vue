@@ -7,6 +7,9 @@
 			<div class="name">
 				{{ item.Name }}
 			</div>
+			<div class="language">
+				{{ item.Language }}
+			</div>
 			<div class="stars">
 				{{ item['Repository Stars Count'] || 0 }}
 				<i class="fa fa-star"></i>
@@ -16,6 +19,7 @@
 			{{ item.Description }}
 		</div>
 
+
 		<div class="expanded-view"
 			 :style="{ backgroundColor: color }"
 			 :class="{ visible: isExpanded }"
@@ -24,6 +28,9 @@
 			<div class="title">
 				<div class="name">
 					{{ item.Name }}
+				</div>
+				<div class="language">
+					{{ item.Language }}
 				</div>
 				<div class="stars">
 					<i class="fa fa-star"></i>
@@ -39,10 +46,7 @@
 </template>
 
 <script>
-	let randomColor = function () {
-		let unit = () => Math.ceil(Math.random() * 100 + 155);
-		return `rgb(${unit()}, ${unit()}, ${unit()})`;
-	};
+	import LanguageColors from '../api/language-colors';
 
 	export default {
 		name: 'library-item',
@@ -51,15 +55,26 @@
 		],
 		data: () => ({
 			isExpanded: false,
-			color: '',
 		}),
 
-		created: function () {
-			if (this.item && !this.item.color) {
-				this.item.color = randomColor();
+		watch: {
+			item: function () {
+				if (this.item && !this.item.color) {
+					this.item.color = LanguageColors(this.item.Language);
+				}
+				this.color = this.item.color;
 			}
-			this.color = this.item.color;
-		}
+		},
+
+		computed: {
+			color() {
+				if (!this.item) {
+					return null;
+				}
+
+				return this.item.color = this.item.color || LanguageColors(this.item.Language);
+			}
+		},
 	};
 </script>
 
@@ -75,6 +90,10 @@
 
 		background: #fff0e0;
 
+		margin: 1px;
+
+		cursor: pointer;
+
 		.title {
 			margin: 0.2em 0;
 			display: flex;
@@ -83,6 +102,11 @@
 				flex: 1;
 				height: 30px;
 				text-align: center;
+			}
+
+			.language::after {
+				content: '•';
+				margin: 0 0.5em;
 			}
 
 			.stars .fa-star {
@@ -101,6 +125,7 @@
 			right: 0;
 
 			background: #fff0e0;
+			border: 1px solid black;
 			margin-top: -0.5em;
 			padding: 0.5em;
 
